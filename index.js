@@ -10,6 +10,8 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 
+const router = require("./controllers/index")
+
 /* ========== */
 
 /* ===== VARIABLES ===== */
@@ -24,10 +26,6 @@ const dburi = process.env.dburi
 const app = express()
 
 /* ========== */
-
-const router = express.Router()
-
-router.get("/test", (req, res) => res.send("Vercel?"))
 
 /* ===== DATABASE CONNECTION ===== */
 
