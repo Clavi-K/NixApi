@@ -3,6 +3,7 @@
 const model = require("../models/transaction.model")
 const categoryModel = require("../models/category.model")
 const walletModel = require("../models/wallet.model")
+const tenantModel = require("../models/tenant.model")
 
 /* ========== */
 
@@ -32,6 +33,10 @@ module.exports = {
             throw new Error("Missing or invalid transaction wallet ID")
         }
 
+        if (!transaction.tenantId || typeof transaction.tenantId !== "string" || transaction.tenantId.trim().length == 0) {
+            throw new Error("Missing or invalid transaction tenant ID")
+        }
+
         try {
 
             const categoryExists = await categoryModel.existsById(transaction.categoryId)
@@ -41,6 +46,11 @@ module.exports = {
 
             const walletExists = await walletModel.existsById(transaction.walletId)
             if (!walletExists) {
+                throw new Error("The provided ID does not match with any existing wallet")
+            }
+
+            const tenantExists = await walletModel.existsById(transaction.walletId)
+            if (!tenantExists) {
                 throw new Error("The provided ID does not match with any existing wallet")
             }
 

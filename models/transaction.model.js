@@ -10,7 +10,7 @@ class TransactionModel {
 
     constructor() {
 
-        const schema = new Schema({
+        this.schema = new Schema({
             type: {
                 type: String,
                 enum: ["addition", "substraction"],
@@ -24,6 +24,11 @@ class TransactionModel {
             walletId: {
                 type: Schema.Types.ObjectId,
                 ref: "Wallet",
+                required: true
+            },
+            tenantId: {
+                type: Schema.Types.ObjectId,
+                ref: "Tenant",
                 required: true
             },
             dateTime: {
@@ -40,7 +45,7 @@ class TransactionModel {
             }
         }, { versionKey: false })
 
-        this.model = model("transactions", schema)
+        this.model = model("transactions", this.schema)
 
     }
 

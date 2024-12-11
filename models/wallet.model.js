@@ -10,7 +10,7 @@ class WalletModel {
 
     constructor() {
 
-        const schema = new Schema({
+        this.schema= new Schema({
             name: {
                 type: String,
                 required: true
@@ -28,7 +28,7 @@ class WalletModel {
             }
         }, { versionKey: false })
 
-        this.model = model("wallets", schema)
+        this.model = model("wallets", this.schema)
 
     }
 

@@ -10,7 +10,7 @@ class CategoryModel {
 
     constructor() {
 
-        const schema = {
+        this.schema = {
             name: {
                 type: "String",
                 required: true
@@ -23,7 +23,7 @@ class CategoryModel {
             },
         }
 
-        this.model = model("Category", schema)
+        this.model = model("Category", this.schema)
 
     }
 

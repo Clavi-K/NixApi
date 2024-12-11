@@ -4,6 +4,7 @@ const { Router } = require("express")
 
 const transactionController = require("./transaction.controller")
 const categoryController = require("./category.controller")
+const tenantController = require("./tenant.controller")
 
 /* ========== */
 
@@ -17,6 +18,7 @@ const router = Router()
 
 router.use("/transaction", transactionController)
 router.use("/category", categoryController)
+router.use("/tenant", tenantController)
 
 /* ========== */
 
