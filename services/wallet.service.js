@@ -14,7 +14,7 @@ module.exports = {
             throw new Error("Missing or invalid wallet name")
         }
 
-        if (!wallet.currency || (wallet.currency != "ARS" || wallet.currency != "USD")) {
+        if (!wallet.currency || (wallet.currency != "ARS" && wallet.currency != "USD")) {
             throw new Error("Missing or invalid wallet currency")
         }
 

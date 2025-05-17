@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, Types, model } = require("mongoose")
 
 /* ========== */
 
@@ -10,7 +10,7 @@ class WalletModel {
 
     constructor() {
 
-        this.schema= new Schema({
+        this.schema = new Schema({
             name: {
                 type: String,
                 required: true
@@ -25,6 +25,11 @@ class WalletModel {
                 required: true,
                 enum: ["ARS", "USD"],
                 default: "ARS"
+            },
+            userId: {
+                type: Types.ObjectId,
+                ref: "users",
+                required: [true, "A user is required to create a wallet"]
             }
         }, { versionKey: false })
 
@@ -42,6 +47,14 @@ class WalletModel {
     async existsById(walletId) {
         const result = await this.model.exists({ _id: walletId })
         return result == undefined ? false : true
+    }
+
+    async getById(walletId) {
+        return await this.model.findById(walletId)
+    }
+
+    async updateBalance(wallet) {
+        
     }
 
     /* ========== */

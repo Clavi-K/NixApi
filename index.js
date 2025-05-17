@@ -18,7 +18,7 @@ const router = require("./controllers/index")
 
 const PORT = process.env.PORT || 8080
 // mongodb+srv://<db_username>:<db_password>@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 
-const dburi = `mongodb+srv://${process.env.db_username}:${process.env.db_password}@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=${process.env.app_name}`
+const dburi = `mongodb+srv://${encodeURIComponent(process.env.db_username)}:${encodeURIComponent(process.env.db_password)}@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=${encodeURIComponent(process.env.app_name)}`
 
 /* ========== */
 

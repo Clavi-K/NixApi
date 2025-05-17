@@ -13,14 +13,14 @@ const router = Router()
 
 /* ===== ROUTES ===== */
 
-router.post("/create", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     const newCategory = req.body
 
     try {
         const result = await service.create(newCategory)
         return res.status(201).send(result)
     } catch (e) {
-        next(e)
+        return next(e)
     }
 
 })

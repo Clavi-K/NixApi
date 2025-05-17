@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, Types, model } = require("mongoose")
 
 /* ========== */
 
@@ -21,9 +21,18 @@ class CategoryModel {
                 enum: ["addition", "substraction"],
                 required: true
             },
+            userId: {
+                type: Types.ObjectId,
+                ref:"users",
+                required:[true, "A user is required to create a category"]
+            },
+            walletId: {
+                type: Types.ObjectId,
+                ref: "wallets",
+            }
         }
 
-        this.model = model("Category", this.schema)
+        this.model = model("categories", this.schema)
 
     }
 

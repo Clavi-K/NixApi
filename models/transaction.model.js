@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, Types, model } = require("mongoose")
 
 /* ========== */
 
@@ -11,25 +11,20 @@ class TransactionModel {
     constructor() {
 
         this.schema = new Schema({
-            type: {
-                type: String,
-                enum: ["addition", "substraction"],
-                required: true
-            },
             categoryId: {
-                type: Schema.Types.ObjectId,
-                ref: "Category",
-                required: true
+                type: Types.ObjectId,
+                ref: "categories",
+                required: [true, "A category is required to create a transaction"]
             },
             walletId: {
-                type: Schema.Types.ObjectId,
-                ref: "Wallet",
-                required: true
+                type: Types.ObjectId,
+                ref: "wallets",
+                required: [true, "A wallet is required to create a transaction"]
             },
-            tenantId: {
-                type: Schema.Types.ObjectId,
-                ref: "Tenant",
-                required: true
+            userId: {
+                type: Types.ObjectId,
+                ref: "users",
+                required: [true, "A user is required to create a transaction"]
             },
             dateTime: {
                 type: Date,

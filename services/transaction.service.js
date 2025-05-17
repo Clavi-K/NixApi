@@ -3,7 +3,7 @@
 const model = require("../models/transaction.model")
 const categoryModel = require("../models/category.model")
 const walletModel = require("../models/wallet.model")
-const tenantModel = require("../models/tenant.model")
+const userModel = require("../models/user.model")
 
 /* ========== */
 
@@ -12,10 +12,6 @@ const tenantModel = require("../models/tenant.model")
 module.exports = {
 
     create: async (transaction) => {
-
-        if (!transaction.type || (transaction.type != "addition" && transaction.type !== "substraction")) {
-            throw new Error("Missing or invalid transaction type")
-        }
 
         if (!transaction.amount || isNaN(transaction.amount) || transaction.amount <= 0) {
             throw new Error("Missing or invalid transaction amount")
@@ -33,28 +29,26 @@ module.exports = {
             throw new Error("Missing or invalid transaction wallet ID")
         }
 
-        if (!transaction.tenantId || typeof transaction.tenantId !== "string" || transaction.tenantId.trim().length == 0) {
-            throw new Error("Missing or invalid transaction tenant ID")
+        if (!transaction.userId || typeof transaction.userId !== "string" || transaction.userId.trim().length == 0) {
+            throw new Error("Missing or invalid transaction user ID")
         }
 
         try {
 
-            const categoryExists = await categoryModel.existsById(transaction.categoryId)
-            if (!categoryExists) {
-                throw new Error("The provided category ID does not match with any existing category")
-            }
+            let category = await categoryModel.getById(transaction.categoryId)
+            let wallet = await walletModel.getById(transaction.walletId)
 
-            const walletExists = await walletModel.existsById(transaction.walletId)
-            if (!walletExists) {
-                throw new Error("The provided ID does not match with any existing wallet")
+            if (category.type == "substraction") {
+                if ((wallet.balance - transaction.amount) < 0) throw new Error("The wallet balance cannot be below zero")
+                wallet.balance = wallet.balance - transaction.amount
+            } else if (category.type == "addition") {
+                wallet.balance = wallet.balance + transaction.amount
             }
+    
+            
 
-            const tenantExists = await walletModel.existsById(transaction.walletId)
-            if (!tenantExists) {
-                throw new Error("The provided ID does not match with any existing wallet")
-            }
-
-            return await model.create(transaction)
+            return "a"
+            // return await model.create(transaction)
         } catch (e) {
             throw new Error(e)
         }
