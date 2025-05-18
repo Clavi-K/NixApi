@@ -28,7 +28,20 @@ module.exports = {
             throw new Error(e)
         }
 
-    }
+    },
+
+    getById: async (categoryId) => {
+
+        if (!categoryId || typeof categoryId != "string" || categoryId.trim().length == 0) {
+            throw new Error("Missing or invalid category ID")
+        }
+
+        try {
+            return await model.getById(categoryId)
+        } catch (e) {
+            throw new Error(e)
+        }
+    },
 
 }
 

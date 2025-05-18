@@ -64,7 +64,7 @@ class TransactionModel {
         })
     }
 
-    async filteredGet(filters) {
+    async get(filters) {
         return await this.model.find(filters)
     }
 

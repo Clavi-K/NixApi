@@ -25,6 +25,18 @@ class UserModel {
                 required: true,
                 unique: true,
                 match: [/^\S+@\S+\.\S+$/, "The email format is not valid"]
+            },
+            password: {
+                type: String,
+                required: true
+            },
+            tokenVersion: {
+                type: Number,
+                default: 0
+            },
+            deleted: {
+                type: Boolean,
+                default: false
             }
         }, { versionKey: false })
 
@@ -39,18 +51,29 @@ class UserModel {
         return result
     }
 
-    async getAll() {
-        console.log("esta viniendo por aca?")
-        return await this.model.find({}).lean()
+    async get(filters) {
+        filters.deleted = false
+        return await this.model.findOne(filters).lean()
     }
 
-    async getByName(name) {
-        return await this.model.find({ name: { $regex: name, $options: 'i' } })
+    async getById(userId) {
+        const user = await this.model.findById(userId)
+        return user && !user.deleted ? user : null
     }
 
-    async existsById(userId) {
-        const result = await this.model.exists({ _id: userId })
-        return result == undefined ? false : true
+    async update(user) {
+        const result = await this.model.updateOne(user)
+        return result.matchedCount > 0 ? "User successfully updated" : "User was not updated"
+    }
+
+    async logicDeletion(userId) {
+        const user = await this.model.findById(userId)
+
+        if (user.deleted) return "User was already deleted"
+
+        user.deleted = true
+        const result = await this.model.updateOne({ _id: user._id }, user)
+        return result.modifiedCount > 0 ? "User successfully deleted" : "User was not deleted"
     }
 
     /* ========== */

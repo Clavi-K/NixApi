@@ -53,8 +53,9 @@ class WalletModel {
         return await this.model.findById(walletId)
     }
 
-    async updateBalance(wallet) {
-        
+    async update(wallet) {
+        const result = await this.model.updateOne({ _id: wallet._id }, wallet)
+        return result.matchedCount > 0 ? "Wallet successfully updated" : "Wallet was not updated"
     }
 
     /* ========== */

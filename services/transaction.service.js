@@ -1,9 +1,8 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/transaction.model")
-const categoryModel = require("../models/category.model")
+const categoryService = require("./category.service")
 const walletModel = require("../models/wallet.model")
-const userModel = require("../models/user.model")
 
 /* ========== */
 
@@ -35,70 +34,43 @@ module.exports = {
 
         try {
 
-            let category = await categoryModel.getById(transaction.categoryId)
+            let category = await categoryService.getById(transaction.categoryId)
             let wallet = await walletModel.getById(transaction.walletId)
 
             if (category.type == "substraction") {
                 if ((wallet.balance - transaction.amount) < 0) throw new Error("The wallet balance cannot be below zero")
                 wallet.balance = wallet.balance - transaction.amount
             } else if (category.type == "addition") {
-                wallet.balance = wallet.balance + transaction.amount
+                wallet.balance = parseFloat(wallet.balance) + parseFloat(transaction.amount)
             }
-    
-            
 
-            return "a"
-            // return await model.create(transaction)
+            await walletModel.updateWallet(wallet)
+            return await model.create(transaction)
+
         } catch (e) {
             throw new Error(e)
         }
 
     },
 
-    filteredGet: async (filters) => {
-        const modelFilters = { dateTime: {}, amount: {} }
+    get: async (filters) => {
 
-        if (filters.type && (filters.type == "addition" || filters.type == "substraction")) {
-            modelFilters.type = filters.type
+        if (!filters) {
+            throw new Error("Filters are required to return transactions")
         }
 
-        if (filters.fromDate && new Date(filters.fromDate) != "Invalid Date") {
-            modelFilters.dateTime.$gte = new Date(filters.fromDate)
+        if(!filters.userId || typeof filters.userId !== "string" || filters.userId.trim().legnth == 0) {
+            throw new Error("Missing or invalid filter user ID")
         }
 
-        if (filters.toDate && new Date(filters.toDate) != "Invalid Date") {
-            if (!modelFilters.dateTime.$gte || (modelFilters.dateTime.$gte && modelFilters.dateTime.$gte < new Date(filters.toDate))) {
-                modelFilters.dateTime.$lte = new Date(filters.toDate)
-            }
+        if(!filters.walletId || typeof filters.walletId !== "string" || filters.walletId.trim().legnth == 0) {
+            throw new Error("Missing or invalid filter wallet ID")
         }
-
-        if (filters.fromAmount && !isNaN(parseFloat(filters.fromAmount))) {
-            modelFilters.amount.$gte = parseFloat(filters.fromAmount)
-        }
-
-        if (filters.toAmount && !isNaN(parseFloat(filters.toAmount))) {
-            if (!modelFilters.amount.$gte || (modelFilters.amount.$gte && modelFilters.amount.$gte < parseFloat(filters.toAmount))) {
-                modelFilters.amount.$lte = parseFloat(filters.toAmount)
-            }
-        }
-
-        if (Object.keys(modelFilters.dateTime).length == 0) delete modelFilters.dateTime
-        if (Object.keys(modelFilters.amount).length == 0) delete modelFilters.amount
 
         try {
-
-            if (filters.categoryId && typeof filters.categoryId == "string" && await categoryModel.existsById(filters.categoryId)) {
-                modelFilters.categoryId = filters.categoryId
-            }
-
-            if (filters.walletId && typeof filters.walletId == "string" && await walletModel.existsById(filters.walletId)) {
-                modelFilters.walletId = filters.walletId
-            }
-
-            return await model.filteredGet(modelFilters)
-
-        } catch (e) {
-            throw new Error(e)
+            return await model.get(filters)
+        } catch(e) {
+            throw new Error(e )
         }
 
     },
@@ -106,6 +78,18 @@ module.exports = {
     getAll: async () => {
         try {
             return await model.getAll()
+        } catch (e) {
+            throw new Error(e)
+        }
+    },
+
+    getById: async (transactionId) => {
+        if (!transactionId || typeof transactionId != "string" || transactionId.trim().length == 0) {
+            throw new Error("Missing or invalid transaction note")
+        }
+
+        try {
+            return await model.getById(transactionId)
         } catch (e) {
             throw new Error(e)
         }

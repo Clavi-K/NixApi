@@ -22,24 +22,25 @@ router.post("/", async (req, res, next) => {
     } catch (e) {
         return next(e)
     }
-
 })
 
-router.get("/getAll", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
+    const filters = req.query
 
     try {
-        const results = await service.getAll()
-        return res.status(200).send({ data: results })
+        const result = await service.get(filters)
+        return res.status(200).send(result)
     } catch (e) {
         return next(e)
     }
 
 })
 
-router.get("/filteredGet", async (req, res, next) => {
-    const { type, walletId, categoryId, fromDate, toDate, fromAmount, toAmount } = req.query
+router.get("/:id", async (req,res,next) => {
+    const transactionId = req.params.id
+
     try {
-        const result = await service.getBetweenDates({ type, walletId, categoryId, fromDate, toDate, fromAmount, toAmount })
+        const result = await service.getById(transactionId)
         return res.status(200).send(result)
     } catch (e) {
         return next(e)

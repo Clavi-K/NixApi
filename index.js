@@ -18,8 +18,8 @@ const router = require("./controllers/index")
 
 const PORT = process.env.PORT || 8080
 // mongodb+srv://<db_username>:<db_password>@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 
-const dburi = `mongodb+srv://${encodeURIComponent(process.env.db_username)}:${encodeURIComponent(process.env.db_password)}@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=${encodeURIComponent(process.env.app_name)}`
-
+// const dburi = `mongodb+srv://${encodeURIComponent(process.env.db_username)}:${encodeURIComponent(process.env.db_password)}@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=${encodeURIComponent(process.env.app_name)}`
+const dburi= `mongodb://${process.env.db_username}:${process.env.db_password}@localhost:27017/${process.env.db_name}`
 /* ========== */
 
 /* ===== APP INITIALIZATION ===== */
@@ -30,7 +30,7 @@ const app = express()
 
 /* ===== DATABASE CONNECTION ===== */
 
-mongoose.connect(dburi).then(() => {
+mongoose.connect(dburi, {authSource: "admin"}).then(() => {
 
     /* ===== MIDDLEWARES ===== */
 
