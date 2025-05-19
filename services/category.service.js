@@ -116,8 +116,8 @@ module.exports = {
         try {
             const defaultCategories = await model.get({ name: { $in: ["Default Addition", "Default Substraction"] } })
 
-            if (!defaultCategories.find(c => c.name == "Default Addition")) this.create({ name: "Default Addition", type: "addition" })
-            if (!defaultCategories.find(c => c.name == "Default Substraction")) this.create({ name: "Default Substraction", type: "substraction" })
+            if (!defaultCategories.find(c => c.name == "Default Addition")) model.create({ name: "Default Addition", type: "addition" })
+            if (!defaultCategories.find(c => c.name == "Default Substraction")) model.create({ name: "Default Substraction", type: "substraction" })
 
         } catch (e) {
             console.error(e)
