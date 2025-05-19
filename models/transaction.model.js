@@ -43,8 +43,18 @@ class TransactionModel {
         return result
     }
 
+    async get(filters) {
+        filters.deleted = false
+        return await this.model.find(filters).lean()
+    }
+
     async getAll() {
         return await this.model.find({}).lean()
+    }
+
+    async update(transaction) {
+        const result = await this.model.updateOne({ _id: transaction._id }, transaction)
+        return result.matchedCount > 0 ? "Transaction successfully updated" : "Transaction was not updated"
     }
 
     async getBetweenDates(fromDate, toDate) {
@@ -54,10 +64,6 @@ class TransactionModel {
                 $lte: toDate
             }
         })
-    }
-
-    async get(filters) {
-        return await this.model.find(filters)
     }
 
 }

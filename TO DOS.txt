@@ -1,0 +1,3 @@
+* Cambiar el uso del userId (en TODOS los casos), por el que viene en el accessToken y SIEMPRE usar ese para los reads o las comparaciones
+
+* Cambiar los métodos de update por unos que usen findOneAndUpdate

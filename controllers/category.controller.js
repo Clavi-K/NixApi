@@ -1,10 +1,11 @@
 const { Router } = require("express")
 
 const service = require("../services/category.service")
+const { auth } = require("../middlewares")
 
 const router = Router()
 
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
     const newCategory = req.body
 
     try {
@@ -14,6 +15,29 @@ router.post("/", async (req, res, next) => {
         return next(e)
     }
 
+})
+
+router.get("/", auth, async (req, res, next) => {
+    const { id, walletId } = req.query
+    const { user } = req
+
+    try {
+        const result = await service.get(user._id, walletId, id)
+        return res.status(200).send(result)
+    } catch (e) {
+        return next(e)
+    }
+})
+
+router.put("/", auth, async (req, res, next) => {
+    const category = req.body
+
+    try {
+        const result = await service.update(category)
+        return res.status(200).send(result)
+    } catch (e) {
+        return next(e)
+    }
 })
 
 module.exports = router

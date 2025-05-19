@@ -33,6 +33,7 @@ module.exports = {
 
             return { accessToken: token }
         } catch (e) {
+            console.error(e)
             throw new Error(e)
         }
 
@@ -50,7 +51,7 @@ module.exports = {
 
         try {
             const user = await model.get({ email: credentials.email })
-            if(!user) throw new Error("There is no valid user with that email")
+            if (!user) throw new Error("There is no valid user with that email")
 
             const valid = await bcrypt.compare(credentials.password, user.password)
             if (!valid) throw new Error("Incorrect password")
@@ -59,6 +60,7 @@ module.exports = {
             return { accessToken: token }
 
         } catch (e) {
+            console.error(e)
             throw new Error(e)
         }
 
@@ -76,6 +78,7 @@ module.exports = {
             const result = await model.update(user)
             return result == "User successfully updated" ? "Logged out" : "Something went wrong while logging out"
         } catch (e) {
+            console.error(e)
             throw new Error(e)
         }
 
@@ -90,6 +93,7 @@ module.exports = {
         try {
             return await model.getById(userId)
         } catch (e) {
+            console.error(e)
             throw new Error(e)
         }
     },
@@ -110,6 +114,7 @@ module.exports = {
         try {
             return await model.update(user)
         } catch (e) {
+            console.error(e)
             throw new Error(e)
         }
 
@@ -117,7 +122,7 @@ module.exports = {
 
     delete: async (userId) => {
         if (!userId || typeof userId != "string" || userId.trim().length == 0) {
-            throw new Error("Missing or invalid user name")
+            throw new Error("Missing or invalid user ID")
         }
 
         try {

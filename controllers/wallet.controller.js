@@ -22,7 +22,7 @@ router.get("/", auth, async (req, res, next) => {
     const { user } = req
 
     try {
-        const result = await service.getByIds(id, user._id)
+        const result = await service.get(id, user._id)
         return res.status(200).send(result)
     } catch (e) {
         return next(e)
@@ -30,11 +30,22 @@ router.get("/", auth, async (req, res, next) => {
 })
 
 router.put("/", auth, async (req, res, next) => {
-    const { user } = req
     const wallet = req.body
 
     try {
-        const result = await service.update(user._id, wallet)
+        const result = await service.update(wallet)
+        return res.status(200).send(result)
+    } catch (e) {
+        return next(e)
+    }
+
+})
+
+router.delete("/", auth, async (req, res, next) => {
+    const { id } = req.query
+
+    try {
+        const result = await service.delete(id)
         return res.status(200).send(result)
     } catch (e) {
         return next(e)

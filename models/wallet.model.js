@@ -55,6 +55,21 @@ class WalletModel {
         return result.matchedCount > 0 ? "Wallet successfully updated" : "Wallet was not updated"
     }
 
+    async logicDeletion(walletId) {
+        const wallet = await this.model.findById(walletId)
+
+        if (wallet.deleted) return "Wallet was already deleted"
+
+        wallet.deleted = true
+        const result = await this.model.updateOne({ _id: wallet._id }, wallet)
+        return result.modifiedCount > 0 ? "Wallet successfully deleted" : "Wallet was not deleted"
+    }
+
+    async updateBalance(walletId, walletBalance) {
+        await this.model.findOneAndUpdate({ _id: walletId }, { balance: walletBalance }, { new: true, runValidators: true })
+        return "Wallet successfully updated"
+    }
+
 }
 
 module.exports = new WalletModel()

@@ -43,6 +43,22 @@ class CategoryModel {
         return await this.model.find(filters).lean()
     }
 
+    async update(category) {
+        const result = await this.model.updateOne({ _id: category._id }, category)
+        return result.matchedCount > 0 ? "Category successfully updated" : "Category was not updated"
+    }
+
+    async logicDeletion(categoryId) {
+        const category = await this.model.findById(categoryId)
+
+        if (category.deleted) return "Category was already deleted"
+
+        category.deleted = true
+        const result = await this.model.updateOne({ _id: category._id }, category)
+        return result.modifiedCount > 0 ? "Category successfully deleted" : "Category was not deleted"
+    }
+
+
     async existsById(categoryId) {
         const result = await this.model.exists({ _id: categoryId })
         return result == undefined ? false : true
