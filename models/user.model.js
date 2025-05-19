@@ -1,11 +1,4 @@
-/* ===== REQUIRED IMPORTS ===== */
-
 const { Schema, model } = require("mongoose")
-
-/* ========== */
-
-
-/* ===== DATABASE MODEL ===== */
 
 class UserModel {
 
@@ -44,8 +37,6 @@ class UserModel {
 
     }
 
-    /* ===== MODEL METHODS ===== */
-
     async create(user) {
         const result = await this.model.create(user)
         return result
@@ -76,13 +67,8 @@ class UserModel {
         return result.modifiedCount > 0 ? "User successfully deleted" : "User was not deleted"
     }
 
-    /* ========== */
 }
 
-/* ========== */
-
-/* ===== MODEL EXPORT ===== */
 
 module.exports = new UserModel()
 
-/* ========== */

@@ -1,15 +1,9 @@
-/* ===== REQUIRED IMPORTS ===== */
-
 const model = require("../models/category.model")
-
-/* ========== */
-
-/* ===== SERVICE EXPORT ===== */
 
 module.exports = {
 
-    create: async (category) => {
-
+    create: async function (category) {
+        //cuando revisemos este método, buscar el user de userId, pues la validación no puede ir por Mongoose
         if (!category.name || typeof category.name !== "string" || category.name.trim().length == 0) {
             throw new Error("Missing or invalid category name")
         }
@@ -30,7 +24,7 @@ module.exports = {
 
     },
 
-    getById: async (categoryId) => {
+    getById: async function (categoryId) {
 
         if (!categoryId || typeof categoryId != "string" || categoryId.trim().length == 0) {
             throw new Error("Missing or invalid category ID")
@@ -43,6 +37,18 @@ module.exports = {
         }
     },
 
+
+    createDefaultCategories: async function () {
+        try {
+            const defaultCategories = await model.get({ note: { $in: ["Default Addition", "Default Substraction"] } })
+
+            if (!defaultCategories.find(c => c.name == "Default Addition")) this.create({ name: "Default Addition", type: "addition" })
+            if (!defaultCategories.find(c => c.name == "Default Substraction")) this.create({ name: "Default Substraction", type: "substraction" })
+
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
+
 }
 
-/* ========== */

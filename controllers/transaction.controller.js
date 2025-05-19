@@ -1,17 +1,8 @@
-/* ===== REQUIRED IMPORTS ===== */
-
-const service = require("../services/transaction.service")
 const { Router } = require("express")
 
-/* ========== */
-
-/* ===== ROUTER ===== */
+const service = require("../services/transaction.service")
 
 const router = Router()
-
-/* ========== */
-
-/* ===== ROUTES ===== */
 
 router.post("/", async (req, res, next) => {
     const newTransaction = req.body
@@ -48,10 +39,5 @@ router.get("/:id", async (req,res,next) => {
 
 })
 
-/* ========== */
-
-/* ===== ROUTER EXPORT ===== */
-
 module.exports = router
 
-/* ========== */

@@ -1,10 +1,4 @@
-/* ===== REQUIRED IMPORTS ===== */
-
 const { Schema, Types, model } = require("mongoose")
-
-/* ========== */
-
-/* ===== DATABASE MODEL ===== */
 
 class WalletModel {
 
@@ -30,14 +24,16 @@ class WalletModel {
                 type: Types.ObjectId,
                 ref: "users",
                 required: [true, "A user is required to create a wallet"]
+            },
+            deleted: {
+                type: Boolean,
+                default: false
             }
         }, { versionKey: false })
 
         this.model = model("wallets", this.schema)
 
     }
-
-    /* ===== MODEL METHODS ===== */
 
     async create(wallet) {
         const result = await this.model.create(wallet)
@@ -49,8 +45,9 @@ class WalletModel {
         return result == undefined ? false : true
     }
 
-    async getById(walletId) {
-        return await this.model.findById(walletId)
+    async get(filters) {
+        filters.deleted = false
+        return await this.model.find(filters).lean()
     }
 
     async update(wallet) {
@@ -58,14 +55,7 @@ class WalletModel {
         return result.matchedCount > 0 ? "Wallet successfully updated" : "Wallet was not updated"
     }
 
-    /* ========== */
-
 }
-
-/* ========== */
-
-/* ===== MODEL EXPORT ===== */
 
 module.exports = new WalletModel()
 
-/* ========== */

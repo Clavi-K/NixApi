@@ -1,10 +1,4 @@
-/* ===== REQUIRED IMPORTS ===== */
-
 const { Schema, Types, model } = require("mongoose")
-
-/* ========== */
-
-/* ===== DATABASE MODEL ===== */
 
 class TransactionModel {
 
@@ -44,8 +38,6 @@ class TransactionModel {
 
     }
 
-    /* ===== MODEL METHODS ===== */
-
     async create(transaction) {
         const result = await this.model.create(transaction)
         return result
@@ -68,14 +60,7 @@ class TransactionModel {
         return await this.model.find(filters)
     }
 
-    /* ========== */
-
 }
-
-/* ========== */
-
-/* ===== MODEL EXPORT ===== */
 
 module.exports = new TransactionModel()
 
-/* ========== */

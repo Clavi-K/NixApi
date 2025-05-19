@@ -1,19 +1,9 @@
-/* ===== REQUIRED IMPORTS ===== */
+const { Router } = require("express")
 
 const service = require("../services/user.service")
 const { auth } = require("../middlewares")
 
-const { Router } = require("express")
-
-/* ========== */
-
-/* ===== ROUTER ===== */
-
 const router = Router()
-
-/* ========== */
-
-/* ===== ROUTES ===== */
 
 router.post("/register", async (req, res, next) => {
     const newUser = req.body
@@ -85,10 +75,5 @@ router.delete("/", auth, async (req, res, next) => {
     }
 })
 
-/* ========== */
-
-/* ===== ROUTER EXPORT ===== */
-
 module.exports = router
 
-/* ========== */

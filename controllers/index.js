@@ -1,5 +1,3 @@
-/* ===== REQUIRED IMPORTS ===== */
-
 const { Router } = require("express")
 
 const transactionController = require("./transaction.controller")
@@ -7,24 +5,12 @@ const categoryController = require("./category.controller")
 const userController = require("./user.controller")
 const walletController = require("./wallet.controller")
 
-/* ========== */
-
-/* ===== ROUTER DEFINITIONS ===== */
-
 const router = Router()
-
-/* ========== */
-
-/* ===== ROUTERS IMPLEMENTATION ===== */
 
 router.use("/transaction", transactionController)
 router.use("/category", categoryController)
 router.use("/user", userController)
 router.use("/wallet", walletController)
-
-/* ========== */
-
-/* ===== ROUTERS IMPLEMENTATION ===== */
 
 router.use("*/*", async(req, res, next) => {
 
@@ -36,10 +22,5 @@ router.use("*/*", async(req, res, next) => {
 
 })
 
-/* ========== */
-
-/* ===== ROUTER EXPORT ===== */
-
 module.exports = router
 
-/* ========== */

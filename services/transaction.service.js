@@ -1,12 +1,6 @@
-/* ===== REQUIRED IMPORTS ===== */
-
 const model = require("../models/transaction.model")
 const categoryService = require("./category.service")
 const walletModel = require("../models/wallet.model")
-
-/* ========== */
-
-/* ===== SERVICE EXPORT ===== */
 
 module.exports = {
 
@@ -96,5 +90,3 @@ module.exports = {
     }
 
 }
-
-/* ========== */

@@ -1,17 +1,8 @@
-/* ===== REQUIRED IMPORTS ===== */
-
-const service = require("../services/category.service")
 const { Router } = require("express")
 
-/* ========== */
-
-/* ===== ROUTER ===== */
+const service = require("../services/category.service")
 
 const router = Router()
-
-/* ========== */
-
-/* ===== ROUTES ===== */
 
 router.post("/", async (req, res, next) => {
     const newCategory = req.body
@@ -25,10 +16,4 @@ router.post("/", async (req, res, next) => {
 
 })
 
-/* ========== */
-
-/* ===== ROUTER EXPORT ===== */
-
 module.exports = router
-
-/* ========== */

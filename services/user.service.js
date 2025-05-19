@@ -1,13 +1,7 @@
-/* ===== REQUIRED IMPORTS ===== */
-
-const model = require("../models/user.model")
-
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
-/* ========== */
-
-/* ===== SERVICE EXPORT ===== */
+const model = require("../models/user.model")
 
 module.exports = {
 
@@ -56,8 +50,9 @@ module.exports = {
 
         try {
             const user = await model.get({ email: credentials.email })
-            const valid = await bcrypt.compare(credentials.password, user.password)
+            if(!user) throw new Error("There is no valid user with that email")
 
+            const valid = await bcrypt.compare(credentials.password, user.password)
             if (!valid) throw new Error("Incorrect password")
 
             const token = jwt.sign({ ...user, _id: user._id.toString() }, process.env.auth_secret)
@@ -134,5 +129,3 @@ module.exports = {
     }
 
 }
-
-/* ========== */
