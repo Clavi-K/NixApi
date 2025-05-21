@@ -7,20 +7,22 @@ const router = Router()
 
 router.post("/", async (req, res, next) => {
     const newTransaction = req.body
-
+    const { user } = req
+    
     try {
-        const result = await service.create(newTransaction)
+        const result = await service.create(user._id, newTransaction)
         return res.status(201).send(result)
     } catch (e) {
         return next(e)
     }
 })
 
-router.get("/", async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
     const filters = req.query
+    const { user } = req
 
     try {
-        const result = await service.get(filters)
+        const result = await service.get(user._id, filters)
         return res.status(200).send(result)
     } catch (e) {
         return next(e)

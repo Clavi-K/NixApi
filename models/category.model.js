@@ -44,12 +44,12 @@ class CategoryModel {
     }
 
     async update(category) {
-        const result = await this.model.updateOne({ _id: category._id }, category)
+        const result = await this.model.updateOne({ _id: category._id, userId: category.userId }, category)
         return result.matchedCount > 0 ? "Category successfully updated" : "Category was not updated"
     }
 
-    async logicDeletion(categoryId) {
-        const category = await this.model.findById(categoryId)
+    async logicDeletion(filters) {
+        const category = await this.model.findOne(filters)
 
         if (category.deleted) return "Category was already deleted"
 

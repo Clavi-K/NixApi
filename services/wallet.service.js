@@ -4,7 +4,7 @@ const transactionModel = require("../models/transaction.model")
 
 module.exports = {
 
-    create: async function (wallet) {
+    create: async function (userId, wallet) {
 
         if (!wallet.name || typeof wallet.name !== "string" || wallet.name.trim().length == 0) {
             throw new Error("Missing or invalid wallet name")
@@ -14,9 +14,11 @@ module.exports = {
             throw new Error("Missing or invalid wallet currency")
         }
 
-        if (!wallet.userId || typeof wallet.userId !== "string" || wallet.userId.trim().length == 0) {
+        if (!userId || typeof userId !== "string" || userId.trim().length == 0) {
             throw new Error("Missing or invalid user ID")
         }
+
+        wallet.userId = userId
 
         try {
             return await model.create(wallet)
@@ -27,8 +29,7 @@ module.exports = {
 
     },
 
-    get: async function (walletId, userId) {
-
+    get: async function (userId, walletId) {
         if (!userId || typeof userId !== "string" || userId.trim().length == 0) {
             throw new Error("Mising or invalid user ID")
         }
@@ -48,13 +49,13 @@ module.exports = {
         }
     },
 
-    update: async function (wallet) {
+    update: async function (userId, wallet) {
 
         if (!wallet._id || typeof wallet._id !== "string" || wallet._id.trim().length == 0) {
             throw new Error("Missing or invalid wallet ID")
         }
 
-        if (!wallet.userId || typeof wallet.userId !== "string" || wallet.userId.trim().length == 0) {
+        if (!userId || typeof userId !== "string" || userId.trim().length == 0) {
             throw new Error("Missing or invalid user ID")
         }
 
@@ -70,10 +71,15 @@ module.exports = {
             throw new Error("Missing or invalid wallet balance")
         }
 
+        let transactionResult
+        wallet.userId = userId
+
         try {
 
-            const dbWallets = await this.get(wallet._id, wallet.userId)
+            const dbWallets = await this.get(userId, wallet._id)
             const dbWallet = dbWallets[0]
+            
+            if(!dbWallet) throw new Error("No wallet found with that ID for that user")
 
             if (parseFloat(wallet.balance) !== parseFloat(dbWallet.balance)) {
                 let newTransaction = { note: "Automatic adjustment" }
@@ -88,17 +94,18 @@ module.exports = {
                     newTransaction.amount = dbWallet.balance - wallet.balance
                 }
 
-                const result = await model.update(wallet)
-
                 newTransaction.userId = wallet.userId
                 newTransaction.categoryId = category._id.toString()
                 newTransaction.walletId = wallet._id
 
-                await transactionModel.create(newTransaction)
-
-                return result
+                transactionResult = await transactionModel.create(newTransaction)
 
             }
+
+            let result
+            if (transactionResult) result = await model.update(wallet)
+
+            return result
 
         } catch (e) {
             console.error(e)
@@ -107,13 +114,17 @@ module.exports = {
 
     },
 
-    delete: async function (walletId) {
+    delete: async function (userId, walletId) {
+        if (!userId || typeof userId != "string" || userId.trim().length == 0) {
+            throw new Error("Missing or invalid user ID")
+        }
+
         if (!walletId || typeof walletId != "string" || walletId.trim().length == 0) {
             throw new Error("Missing or invalid wallet ID")
         }
 
         try {
-            return await model.logicDeletion(walletId)
+            return await model.logicDeletion({ _id: walletId, userId })
         } catch (e) {
             console.error(e)
             throw new Error(e)

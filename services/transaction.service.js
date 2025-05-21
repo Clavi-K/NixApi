@@ -6,7 +6,7 @@ const utils = require("../utils")
 
 module.exports = {
 
-    create: async function (transaction) {
+    create: async function (userId, transaction) {
 
         if (!transaction.amount || isNaN(transaction.amount) || transaction.amount <= 0) {
             throw new Error("Missing or invalid transaction amount")
@@ -24,7 +24,7 @@ module.exports = {
             throw new Error("Missing or invalid transaction wallet ID")
         }
 
-        if (!transaction.userId || typeof transaction.userId !== "string" || transaction.userId.trim().length == 0) {
+        if (!userId || typeof userId !== "string" || userId.trim().length == 0) {
             throw new Error("Missing or invalid transaction user ID")
         }
 
@@ -33,6 +33,8 @@ module.exports = {
         } else {
             transaction.dateTime = new Date(transaction.dateTime)
         }
+
+        transaction.userId = userId
 
         try {
 
@@ -56,13 +58,13 @@ module.exports = {
 
     },
 
-    get: async function (filters) {
+    get: async function (userId, filters) {
 
         if (!filters) {
             throw new Error("Filters are required to return transactions")
         }
 
-        if (!filters.userId || typeof filters.userId !== "string" || filters.userId.trim().legnth == 0) {
+        if (!userId || typeof userId !== "string" || userId.trim().legnth == 0) {
             throw new Error("Missing or invalid filter user ID")
         }
 
@@ -70,7 +72,7 @@ module.exports = {
             throw new Error("Missing or invalid filter wallet ID")
         }
 
-        let user = await userModel.get({ _id: filters.userId })
+        let user = await userModel.get({ _id: userId })
         let dbWallets = await walletModel.get({ userId: user._id, _id: filters.walletId })
         let dbWallet = dbWallets[0] || null
 
@@ -129,6 +131,7 @@ module.exports = {
         }
 
         try {
+            console.log("dbFilters ",dbFilters)
             return await model.get(dbFilters)
         } catch (e) {
             console.error(e)

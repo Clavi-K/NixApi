@@ -51,12 +51,12 @@ class WalletModel {
     }
 
     async update(wallet) {
-        const result = await this.model.updateOne({ _id: wallet._id }, wallet)
+        const result = await this.model.updateOne({ _id: wallet._id, userId: wallet.userId }, wallet)
         return result.matchedCount > 0 ? "Wallet successfully updated" : "Wallet was not updated"
     }
 
-    async logicDeletion(walletId) {
-        const wallet = await this.model.findById(walletId)
+    async logicDeletion(filters) {
+        const wallet = await this.model.findOne(filters)
 
         if (wallet.deleted) return "Wallet was already deleted"
 

@@ -31,6 +31,10 @@ class TransactionModel {
             note: {
                 type: String,
                 required: true
+            },
+            deleted: {
+                type: Boolean,
+                default: false
             }
         }, { versionKey: false })
 

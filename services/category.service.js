@@ -4,7 +4,7 @@ const walletModel = require("../models/wallet.model")
 
 module.exports = {
 
-    create: async function (category) {
+    create: async function (userId, category) {
         if (!category.name || typeof category.name !== "string" || category.name.trim().length == 0) {
             throw new Error("Missing or invalid category name")
         }
@@ -17,13 +17,15 @@ module.exports = {
             throw new Error("Missing or invalid category type")
         }
 
-        if (!category.userId || typeof category.userId !== "string" || category.userId.trim().length == 0) {
+        if (!userId || typeof userId !== "string" || userId.trim().length == 0) {
             throw new Error("Missing or invalid user ID")
         }
 
         if (!category.walletId || typeof category.walletId !== "string" || category.walletId.trim().length == 0) {
             throw new Error("Missing or invalid wallet ID")
         }
+
+        category.userId = userId
 
         try {
 
@@ -67,13 +69,13 @@ module.exports = {
         }
     },
 
-    update: async function (category) {
+    update: async function (userId, category) {
 
         if (!category._id || typeof category._id !== "string" || category._id.trim().length == 0) {
             throw new Error("Missing or invalid category ID")
         }
 
-        if (!category.userId || typeof category.userId !== "string" || category.userId.trim().length == 0) {
+        if (!userId || typeof userId !== "string" || userId.trim().length == 0) {
             throw new Error("Missing or invalid user ID")
         }
 
@@ -89,6 +91,8 @@ module.exports = {
             throw new Error("Missing or invalid category type")
         }
 
+        category.userId = userId
+
         try {
             const result = await model.update(category)
             return result
@@ -99,13 +103,18 @@ module.exports = {
 
     },
 
-    delete: async function (categoryId) {
+    delete: async function (userId, categoryId) {
+        
+        if (!userId || typeof userId != "string" || userId.trim().length == 0) {
+            throw new Error("Missing or invalid user ID")
+        }
+
         if (!categoryId || typeof categoryId != "string" || categoryId.trim().length == 0) {
             throw new Error("Missing or invalid category ID")
         }
 
         try {
-            return await model.logicDeletion(categoryId)
+            return await model.logicDeletion({_id: categoryId, userId})
         } catch (e) {
             console.error(e)
             throw new Error(e)
