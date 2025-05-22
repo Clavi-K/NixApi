@@ -3,3 +3,7 @@
 * Cambiar los métodos de update por unos que usen findOneAndUpdate
 
 * LINK DE LA API EN EL CODESPACE: https://upgraded-space-enigma-jw4gwvr4pqrcj5pq-8080.app.github.dev
+
+* --------- WEB ACCESS TOKEN ---------
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODJlMDJjMzZkYmNmNDI2YmU3OGQxMjAiLCJuYW1lIjoiTHVjaWFubyIsInN1cm5hbWUiOiJTY2htaWR0IiwiZW1haWwiOiJsdWNpYW5vNDNzY2htaWR0QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEhIWDBpcTN1RG5vUEtLM0plWlI1SWV1Si5HRWlvb3JCMzMubkNHRUE5UWtNLm5HdzFpLnJDIiwidG9rZW5WZXJzaW9uIjowLCJkZWxldGVkIjpmYWxzZSwiaWF0IjoxNzQ3OTM5MzA0fQ.fce9bqZiuBR-DDnZNiVPTczqX1phBTM0yF7--M4xe34

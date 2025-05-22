@@ -61,6 +61,16 @@ class TransactionModel {
         return result.matchedCount > 0 ? "Transaction successfully updated" : "Transaction was not updated"
     }
 
+    async logicDeletion(filters) {
+        const transaction = await this.model.findOne(filters)
+
+        if (transaction.deleted) return "Transaction was already deleted"
+
+        transaction.deleted = true
+        const result = await this.model.updateOne({ _id: transaction._id }, transaction)
+        return result.modifiedCount > 0 ? "Transaction successfully deleted" : "Transaction was not deleted"
+    }
+
     async getBetweenDates(fromDate, toDate) {
         return await this.model.find({
             dateTime: {
