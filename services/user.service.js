@@ -33,7 +33,7 @@ module.exports = {
 
             return { accessToken: token }
         } catch (e) {
-            console.error(e)
+            if (e.toString().includes("duplicate key")) throw new Error("There is already a user created with that email")
             throw new Error(e)
         }
 

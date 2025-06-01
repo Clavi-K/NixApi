@@ -12,7 +12,7 @@ router.post("/register", async (req, res, next) => {
         const result = await service.register(newUser)
         return res.status(201).send(result)
     } catch (e) {
-        return next(e)
+        return res.status(500).send(e.toString())
     }
 
 })

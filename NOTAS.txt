@@ -1,6 +1,4 @@
-* Cambiar el uso del userId (en TODOS los casos), por el que viene en el accessToken y SIEMPRE usar ese para los reads o las comparaciones
-
-* Cambiar los métodos de update por unos que usen findOneAndUpdate
+* Cambiar el manejo de errores actual por algo parecido a lo que está en /user/register
 
 * LINK DE LA API EN EL CODESPACE: https://upgraded-space-enigma-jw4gwvr4pqrcj5pq-8080.app.github.dev
 
