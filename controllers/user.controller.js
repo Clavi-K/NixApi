@@ -17,53 +17,53 @@ router.post("/register", async (req, res, next) => {
 
 })
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req, res) => {
     const creds = req.body
 
     try {
         const result = await service.login(creds)
         return res.status(200).send(result)
     } catch (e) {
-        return next(e)
+        return res.status(500).send(e.toString())
     }
 })
 
 
-router.get("/", auth, async (req, res, next) => {
+router.get("/", auth, async (req, res) => {
     const { user } = req
 
     try {
         const result = await service.getById(user._id)
         return res.status(200).send(result)
     } catch (e) {
-        return next(e)
+        return res.status(500).send(e.toString())
     }
 
 })
 
-router.get("/logout", auth, async (req, res, next) => {
+router.get("/logout", auth, async (req, res) => {
     const { user } = req
     try {
         const result = await service.logout(user._id)
         return res.status(200).send(result)
     } catch (e) {
-        return next(e)
+        return res.status(500).send(e.toString())
     }
 })
 
-router.put("/", auth, async (req, res, next) => {
+router.put("/", auth, async (req, res) => {
     const updatedUser = req.body
 
     try {
         const result = await service.update(updatedUser)
         return res.status(200).send(result)
     } catch (e) {
-        return next(e)
+        return res.status(500).send(e.toString())
     }
 
 })
 
-router.delete("/", auth, async (req, res, next) => {
+router.delete("/", auth, async (req, res) => {
     const { user } = req
 
     try {
@@ -71,7 +71,7 @@ router.delete("/", auth, async (req, res, next) => {
         return res.status(200).send(result)
     } catch (e) {
         console.error(e)
-        return next(e)
+        return res.status(500).send(e.toString())
     }
 })
 
