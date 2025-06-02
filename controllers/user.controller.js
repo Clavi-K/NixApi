@@ -5,7 +5,7 @@ const { auth } = require("../middlewares")
 
 const router = Router()
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", async (req, res) => {
     const newUser = req.body
 
     try {
@@ -70,7 +70,6 @@ router.delete("/", auth, async (req, res) => {
         const result = await service.delete(user._id)
         return res.status(200).send(result)
     } catch (e) {
-        console.error(e)
         return res.status(500).send(e.toString())
     }
 })
