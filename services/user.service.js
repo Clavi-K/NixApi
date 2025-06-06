@@ -6,7 +6,6 @@ const model = require("../models/user.model")
 module.exports = {
 
     register: async (user) => {
-
         if (!user.name || typeof user.name != "string" || user.name.trim().length == 0) {
             throw new Error("Missing or invalid user name")
         }

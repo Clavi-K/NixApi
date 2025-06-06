@@ -13,7 +13,7 @@ router.post("/", auth, async (req, res) => {
         const result = await service.create(user._id, newCategory)
         return res.status(201).send(result)
     } catch (e) {
-        return res.status(500).send(e.toString())
+        return res.status(500).send({error: e.toString()})
     }
 
 })
@@ -26,7 +26,7 @@ router.get("/", auth, async (req, res) => {
         const result = await service.get(user._id, walletId, id)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send(e.toString())
+        return res.status(500).send({error: e.toString()})
     }
 })
 
@@ -38,7 +38,7 @@ router.put("/", auth, async (req, res) => {
         const result = await service.update(user._id, category)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send(e.toString())
+        return res.status(500).send({error: e.toString()})
     }
 })
 
@@ -50,7 +50,7 @@ router.delete("/", auth, async (req, res) => {
         const result = await service.delete(user._id, id)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send(e.toString())
+        return res.status(500).send({error: e.toString()})
     }
 })
 
