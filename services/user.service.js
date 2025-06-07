@@ -33,7 +33,7 @@ module.exports = {
             return { accessToken: token }
         } catch (e) {
             if (e.toString().includes("duplicate key")) throw new Error("There is already a user created with that email")
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -60,7 +60,7 @@ module.exports = {
 
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -78,7 +78,7 @@ module.exports = {
             return result == "User successfully updated" ? "Logged out" : "Something went wrong while logging out"
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -93,7 +93,7 @@ module.exports = {
             return await model.getById(userId)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     },
 
@@ -114,7 +114,7 @@ module.exports = {
             return await model.update(user)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -128,7 +128,7 @@ module.exports = {
             return await model.logicDeletion(userId)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     }
 

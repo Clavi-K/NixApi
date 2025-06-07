@@ -24,7 +24,7 @@ module.exports = {
             return await model.create(wallet)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -45,7 +45,7 @@ module.exports = {
             return result.map(r => ({ ...r, balance: parseFloat(r.balance) }))
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     },
 
@@ -109,7 +109,7 @@ module.exports = {
 
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -127,7 +127,7 @@ module.exports = {
             return await model.logicDeletion({ _id: walletId, userId })
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     }
 

@@ -39,7 +39,7 @@ module.exports = {
             return await model.create(category)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -65,7 +65,7 @@ module.exports = {
             return await model.get(filters)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     },
 
@@ -98,7 +98,7 @@ module.exports = {
             return result
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -117,7 +117,7 @@ module.exports = {
             return await model.logicDeletion({_id: categoryId, userId})
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     },
 
@@ -130,7 +130,7 @@ module.exports = {
 
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     }
 

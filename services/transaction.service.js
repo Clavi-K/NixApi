@@ -51,7 +51,7 @@ module.exports = {
 
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -132,7 +132,7 @@ module.exports = {
             return await model.get(dbFilters)
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
 
     },
@@ -146,7 +146,7 @@ module.exports = {
             return await model.get({ _id: transactionId })
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     },
 
@@ -187,7 +187,7 @@ module.exports = {
 
         } catch (e) {
             console.error(e)
-            throw new Error(e)
+            throw new Error(e.message)
         }
     }
 }
