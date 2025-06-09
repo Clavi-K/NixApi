@@ -44,7 +44,7 @@ router.get("/logout", auth, async (req, res) => {
     const { user } = req
     try {
         const result = await service.logout(user._id)
-        return res.status(200).send(result)
+        return res.status(200).send({msg: result})
     } catch (e) {
         return res.status(500).send({error: e.toString()})
     }
