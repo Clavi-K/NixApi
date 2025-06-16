@@ -13,13 +13,11 @@ router.use("/user", userController)
 router.use("/wallet", walletController)
 
 router.use("*/*", async(req, res, next) => {
-
     try {
         return res.status(404).send("This route is not implemented")
     } catch (e) {
         return next(e)
     }
-
 })
 
 module.exports = router

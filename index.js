@@ -35,6 +35,11 @@ mongoose.connect(dburi, { authSource: "admin" }).then(() => {
         next();
     })
 
+    app.use("*/*", (req, res, next) => {
+        console.log(`[${req.method}]: ${req.originalUrl}`)
+        return next()
+    })
+
     app.use("/", router)
 
     app.listen(PORT, () => console.log("Listening on port: " + PORT))

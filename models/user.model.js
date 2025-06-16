@@ -53,7 +53,7 @@ class UserModel {
     }
 
     async update(user) {
-        const result = await this.model.updateOne(user)
+        const result = await this.model.updateOne({ _id: user._id }, user)
         return result.matchedCount > 0 ? "User successfully updated" : "User was not updated"
     }
 
