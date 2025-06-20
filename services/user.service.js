@@ -55,6 +55,8 @@ module.exports = {
             const valid = await bcrypt.compare(credentials.password, user.password)
             if (!valid) throw new Error("Incorrect password")
 
+            delete user.password
+
             const token = jwt.sign({ ...user, _id: user._id.toString() }, process.env.auth_secret)
             return { accessToken: token }
 
