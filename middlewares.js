@@ -11,7 +11,11 @@ module.exports = {
         jwt.verify(token, process.env.auth_secret, async (err, user) => {
             const tokenUser = user._doc != undefined ? user._doc : user
             const dbUser = await userService.getById(tokenUser._id)
-            if (err || dbUser.tokenVersion !== tokenUser.tokenVersion) return res.sendStatus(403);
+
+            if (err || dbUser.tokenVersion !== tokenUser.tokenVersion) {
+                console.log("Forbidden")
+                return res.sendStatus(403);
+            }
 
             req.user = tokenUser
             return next();
