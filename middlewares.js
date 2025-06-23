@@ -9,6 +9,9 @@ module.exports = {
         if (!token) return res.sendStatus(401);
 
         jwt.verify(token, process.env.auth_secret, async (err, user) => {
+
+            if (!user) return res.sendStatus(403);
+
             const tokenUser = user._doc != undefined ? user._doc : user
             const dbUser = await userService.getById(tokenUser._id)
 
