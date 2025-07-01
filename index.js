@@ -9,8 +9,8 @@ const utils = require("./utils")
 
 const PORT = process.env.PORT || 8080
 
-// const dburi = `mongodb+srv://${encodeURIComponent(process.env.db_username)}:${encodeURIComponent(process.env.db_password)}@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=${encodeURIComponent(process.env.app_name)}`
-const dburi = `mongodb://${process.env.db_username}:${process.env.db_password}@localhost:27017/${process.env.db_name}`
+const dburi = `mongodb+srv://${encodeURIComponent(process.env.db_username)}:${encodeURIComponent(process.env.db_password)}@cluster0.j3uwp.mongodb.net/?retryWrites=true&w=majority&appName=${encodeURIComponent(process.env.app_name)}`
+// const dburi = `mongodb://${process.env.db_username}:${process.env.db_password}@localhost:27017/${process.env.db_name}`
 
 const app = express()
 

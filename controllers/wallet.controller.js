@@ -35,6 +35,7 @@ router.put("/", auth, async (req, res) => {
 
     try {
         const result = await service.update(user._id, wallet)
+        console.log("result ", result)
         return res.status(200).send(result)
     } catch (e) {
         return res.status(500).send({ error: e.toString() })
