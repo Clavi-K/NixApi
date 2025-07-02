@@ -78,8 +78,8 @@ module.exports = {
 
             const dbWallets = await this.get(userId, wallet._id)
             const dbWallet = dbWallets[0]
-            
-            if(!dbWallet) throw new Error("No wallet found with that ID for that user")
+
+            if (!dbWallet) throw new Error("No wallet found with that ID for that user")
 
             if (parseFloat(wallet.balance) !== parseFloat(dbWallet.balance)) {
                 let newTransaction = { note: "Automatic adjustment" }
@@ -103,9 +103,9 @@ module.exports = {
             }
 
             let result
-            if (transactionResult) result = await model.update(wallet)
+            if (transactionResult || parseFloat(wallet.balance) == parseFloat(dbWallet.balance)) result = await model.update(wallet)
 
-            return result
+            return { msg: result }
 
         } catch (e) {
             console.error(e)
@@ -124,7 +124,8 @@ module.exports = {
         }
 
         try {
-            return await model.logicDeletion({ _id: walletId, userId })
+            const result = await model.logicDeletion({ _id: walletId, userId })
+            return { msg: result }
         } catch (e) {
             console.error(e)
             throw new Error(e.message)
