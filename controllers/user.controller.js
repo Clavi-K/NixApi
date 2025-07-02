@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
         const result = await service.register(newUser)
         return res.status(201).send(result)
     } catch (e) {
-        return res.status(500).send({error: e.toString()})
+        return res.status(500).send({ error: e.toString() })
     }
 
 })
@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
         const result = await service.login(creds)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send({error: e.toString()})
+        return res.status(500).send({ error: e.toString() })
     }
 })
 
@@ -35,7 +35,7 @@ router.get("/", auth, async (req, res) => {
         const result = await service.getById(user._id)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send({error: e.toString()})
+        return res.status(500).send({ error: e.toString() })
     }
 
 })
@@ -44,10 +44,14 @@ router.get("/logout", auth, async (req, res) => {
     const { user } = req
     try {
         const result = await service.logout(user._id)
-        return res.status(200).send({msg: result})
+        return res.status(200).send({ msg: result })
     } catch (e) {
-        return res.status(500).send({error: e.toString()})
+        return res.status(500).send({ error: e.toString() })
     }
+})
+
+router.get("/ping", auth, (req, res) => {
+    return res.status(200).send("Valid session")
 })
 
 router.put("/", auth, async (req, res) => {
@@ -57,7 +61,7 @@ router.put("/", auth, async (req, res) => {
         const result = await service.update(updatedUser)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send({error: e.toString()})
+        return res.status(500).send({ error: e.toString() })
     }
 
 })
@@ -69,7 +73,7 @@ router.delete("/", auth, async (req, res) => {
         const result = await service.delete(user._id)
         return res.status(200).send(result)
     } catch (e) {
-        return res.status(500).send({error: e.toString()})
+        return res.status(500).send({ error: e.toString() })
     }
 })
 
